@@ -13,6 +13,35 @@ const getSubCategories = async(req,res)=>{
         res.status(500).json({error: error.message})
     }
 }
+const getSubCategoryByIdOrName = async(req,res)=>{
+    try{
+        const{identifier}=req.params
+        console.log(identifier);
+        
+          const isObjectId = /^[0-9a-fA-F]{24}$/.test(identifier);
+
+    let subCategory;
+
+    if (isObjectId) {
+      // If it's a valid ObjectId, search by _id
+      subCategory = await SubCategories.findById(identifier);
+    } else {
+      // Otherwise, search by name (case-insensitive)
+      subCategory = await SubCategories.findOne({
+        name: { $regex: new RegExp(identifier, "i") },
+      });
+    }
+    if (!subCategory) {
+      return res.status(404).json({ error: "Subcategory not found" });
+    }
+
+    res.status(200).json({ data: subCategory });
+
+    }
+    catch(error){
+        res.status(500).json({error: error.message})
+    }
+}
 
 const createSubCategory = async(req,res)=>{
     try{
@@ -42,7 +71,7 @@ const createSubCategory = async(req,res)=>{
     }
 }
 
-const getSubCategoryByID = async(req,res)=>{
+const getSubCategoriesByCategoriesID = async(req,res)=>{
     try{
         const{categoryId:identifier} = req.params;
         
@@ -88,4 +117,4 @@ const editSubCategory= async(req,res)=>{
         res.status(500).json({error: error.message})
     }
 }
-module.exports = {getSubCategories,getSubCategoryByID,editSubCategory,createSubCategory}
+module.exports = {getSubCategories,getSubCategoriesByCategoriesID,editSubCategory,createSubCategory,getSubCategoryByIdOrName}
