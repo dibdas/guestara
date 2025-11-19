@@ -1,4 +1,4 @@
-# 🍽️ Menu Management API
+# 🍽️ Guestara
 
 A comprehensive RESTful API for managing restaurant menus with categories, sub-categories, and items. Built with Node.js, Express.js, and MongoDB.
 

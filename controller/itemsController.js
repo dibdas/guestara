@@ -149,20 +149,41 @@ const searchByName = async (req, res) => {
 const editItem = async(req,res)=>{
     try{
         const{id} = req.params;
-        const itemIndex= Items.find({id});
-        if(itemIndex===-1){
+
+  if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: 'Invalid item ID' });
+    }
+        
+        
+        const existingItem= await Items.findById(id);
+    
+        if(!existingItem){
             return res.status(400).json({error:' Item not found'});
         }
+        
         const updates = req.body
-        const baseAmount = updates.baseAmount || Items[itemIndex].baseAmount;
-        const discount = updates.discount !== undefined? updates.discount : Items[itemIndex].discount;
+    
+        const baseAmount =
+      updates.baseAmount !== undefined
+        ? updates.baseAmount
+        : existingItem.baseAmount;
+
+    const discount =
+      updates.discount !== undefined
+        ? updates.discount
+        : existingItem.discount;
+  
         const totalAmount = baseAmount - discount;
+       
+        
        
         const updatedItems = await Items.findByIdAndUpdate(
             id,
             {
             ...updates,
             totalAmount,
+             baseAmount,
+        discount,
             updatedAt: new Date().toISOString()
             },{new: true}
         );

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Category = require('./Category');
-const Subcategory = require('./SubCategory');
+const SubCategory = require('./SubCategory');
 const itemSchema = new mongoose.Schema({
     name:{
         type: String,
@@ -37,21 +37,21 @@ const itemSchema = new mongoose.Schema({
     },
     categoryId:{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Category',
+        ref: Category,
         default: null
     },
     subCategoryId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref:'SubCategory',
+        ref: SubCategory,
         default: null
     },
 },{
     timestamps: true
 });
 
-itemSchema.pre('save',((next)=>{
+itemSchema.pre('save', function(next){
     this.totalAmount= this.baseAmount - this.discount;
     next()
-}));
+});
 
 module.exports = mongoose.model('Item',itemSchema)

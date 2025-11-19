@@ -80,7 +80,7 @@ const getSubCategoriesByCategoriesID = async(req,res)=>{
               ? { categoryId: identifier }
               : { name: { $regex: new RegExp(`^${identifier}$`, "i") } };
         
-        const subCategory = await SubCategories.findOne(query).populate('categoryId').lean();
+        const subCategory = await SubCategories.find(query).populate('categoryId').lean();
          const { categoryId: category, ...subcategoryData } = subCategory;
         if(!subCategory){
             return res.status(400).json({error: 'sub category not found ' });    
