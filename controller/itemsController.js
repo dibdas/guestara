@@ -2,7 +2,7 @@ const Items = require("../models/Item");
 const SubCategories = require("../models/SubCategory")
 const Categories = require("../models/Category")
 const mongoose = require("mongoose"); 
-const Fuse = require("fuse.js");
+
 const createItem=async(req,res)=>{
     try{
         const{name,image,description,taxApplicability,tax,baseAmount,discount,categoryId,subCategoryId} = req.body;
@@ -75,7 +75,7 @@ const itemById =async(req,res)=>{
 
 const itemByName = async (req, res) => {
   try {
-    console.log("Inside itemByName");
+
     const { name } = req.params;
 
     if (!name) {
@@ -92,32 +92,11 @@ const itemByName = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-// const searchByName = async(req,res)=>{
-//     try{
-//         const{name} = req.params;
-//         console.log(name);
-      
-//     if (!name) {
-//       return res.status(400).json({ error: "Name parameter is required" });
-//     }
-//     const items = await Items.find({
-//       name: { $regex: new RegExp(name, "i") },
-//     }).lean();
-
-//     if (!items.length) {
-//       return res.status(404).json({ error: "No items found with that name" });
-//     }
-//         res.json({data:items, count: items.length})
-//     }
-//     catch(error){
-//         res.status(500).json({error: error.message})
-//     }
-// }
 
 const searchByName = async (req, res) => {
   try {
     const { name} = req.params;
-    console.log("Searching item:", name);
+
 
     if (!name || name.trim() === "") {
       return res.status(400).json({ error: "Name parameter is required" });
@@ -196,7 +175,7 @@ const editItem = async(req,res)=>{
 const getItemsByCategoryId= async(req,res)=>{
     try{
         const{categoryId:identifier} = req.params;
-        console.log(identifier)
+  
 
             const query = mongoose.Types.ObjectId.isValid(identifier)
               ? { categoryId: identifier }
@@ -216,7 +195,7 @@ const getItemsByCategoryId= async(req,res)=>{
 const getItemsBySubCategoryId = async(req,res)=>{
     try{
         const{subcategoryId:identifier} = req.params;
-        console.log(identifier)
+    
          let subCategoryId;
 
          

@@ -37,7 +37,7 @@ const getCategories = async(req,res)=>{
 const getCategoryById=async(req,res)=>{
     try{
         const {identifier} = req.params;
-        console.log(identifier);
+
 
     const query = mongoose.Types.ObjectId.isValid(identifier)
       ? { _id: identifier }
@@ -53,25 +53,6 @@ const getCategoryById=async(req,res)=>{
     }
     
 }
-// const updateCategory= async(req,res)=>{
-//     try{
-//         const{id} = req.params;
-//         const categoryIndex = Categories.findIndex(c=>c.id===id);
-//         if(categoryIndex == -1){
-//             return res.status(400).json({error:' category not found'})
-//         }
-//         const updates = req.body;
-//         const updatedCategory = Categories[categoryIndex] ={
-//             ...Categories[categoryIndex],
-//             ...updates,
-//             id,
-//             updatedAt: newDate().toISOString()
-//         }
-//         res.json({message: 'category updated successfull',updatedCategory })
-//     }catch(error){
-//         res.status(500).json({error: error.message})
-//     }
-// }
 
 const updateCategory = async (req, res) => {
   try {

@@ -16,7 +16,7 @@ const getSubCategories = async(req,res)=>{
 const getSubCategoryByIdOrName = async(req,res)=>{
     try{
         const{identifier}=req.params
-        console.log(identifier);
+     
         
           const isObjectId = /^[0-9a-fA-F]{24}$/.test(identifier);
 
